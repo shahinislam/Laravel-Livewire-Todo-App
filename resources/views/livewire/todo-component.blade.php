@@ -13,7 +13,7 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text border-0" style="background-color: white !important;"
                                 id="basic-addon1">
-                                @if ($todoArray)
+                                @if (count($todoArray) > 0)
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                         class="bi bi-chevron-down" viewBox="0 0 16 16">
                                         <path fill-rule="evenodd"
@@ -89,7 +89,7 @@
 
                 @endforeach
 
-                @if ($todoArray)
+                @if (count($todoArray) > 0)
 
                     <li class="list-group-item">
 
