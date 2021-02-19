@@ -10,6 +10,10 @@
 - Active Item
 - Completed Item
 - Clear Completed
+### Backend Link
+http://127.0.0.1:8000/
+### Frontend Link
+http://127.0.0.1:8000/frontend
 
 ![image](https://user-images.githubusercontent.com/33843231/108508970-cea69400-72e6-11eb-8be1-fa388679815e.png)
 
