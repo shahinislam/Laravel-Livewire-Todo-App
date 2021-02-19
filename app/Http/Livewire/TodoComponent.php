@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\Todo;
 use Livewire\Component;
 
 class TodoComponent extends Component
@@ -10,12 +11,16 @@ class TodoComponent extends Component
     public $check;
     public $checkCross;
     public $text;
-    public $todoArray = [];
     public $todoInput;
-    public $leftItem = 0;
+    public $leftItem;
     public $showAll = true;
     public $showActiveOrCompleted;
     public $selected = 1;
+
+    public function mount()
+    {
+        $this->leftItem = Todo::where('cross', false)->count('cross');
+    }
 
     public function addTodo()
     {
@@ -23,41 +28,52 @@ class TodoComponent extends Component
         {
             return;
         }
-        
-        $this->todoArray[] = [
+
+        Todo::create( [
             'text' => $this->todoText,
             'cross' => false,
-            'showInput' => false,
-        ];
+            'show_input' => false,
+        ]);
+        
         $this->todoText = '';
         $this->leftItem++;
     }
 
-    public function checkCross($index)
+    public function checkCross($id)
     {
-        $arrayCross = $this->todoArray[$index]['cross'];
+        $isCross = Todo::find($id)->cross;
 
-        $arrayCross == true ?  $this->leftItem++ : $this->leftItem--;
+        $isCross == true ?  $this->leftItem++ : $this->leftItem--;
 
-        $this->todoArray[$index]['cross'] = $arrayCross == false ?  true : false;
+        $value = $isCross == false ?  true : false;
+
+        Todo::find($id)->update([
+            'cross' => $value,
+        ]);
     }
 
-    public function edit($index)
+    public function edit($id)
     {
-        $text = $this->todoArray[$index]['text'];
+        $text = Todo::find($id)->text;
 
-        $this->todoInput[$index] = $text;
+        $this->todoInput[$id] = $text;
 
-        $this->todoArray[$index]['showInput'] = true;
+        Todo::find($id)->update([
+            'show_input' => true,
+        ]);
     }
 
-    public function update($index)
+    public function update($id)
     {
-        $this->todoArray[$index]['text'] = $this->todoInput[$index];
+        Todo::find($id)->update([
+            'text' => $this->todoInput[$id],
+        ]);
 
-        $this->todoInput[$index] = '';
+        $this->todoInput[$id] = '';
 
-        $this->todoArray[$index]['showInput'] = false;
+        Todo::find($id)->update([
+            'show_input' => false,
+        ]);
     }
 
     public function all()
@@ -80,28 +96,35 @@ class TodoComponent extends Component
         $this->selected = 3;
     }
 
-    public function delete($index)
+    public function delete($id)
     {
-        if($this->todoArray[$index]['cross'] == false)
+        $isCross = Todo::find($id)->cross;
+
+        if($isCross == false)
         {
             $this->leftItem--;
         }
-        unset($this->todoArray[$index]);
+
+        Todo::find($id)->delete();
     }
 
     public function clearCompleted()
     {
-        foreach($this->todoArray as $i => $array)
+        $todoArray = Todo::all();
+
+        foreach($todoArray as $i => $array)
         {
-            if($array['cross'])
+            if($array->cross)
             {
-                unset($this->todoArray[$i]);
+                Todo::find($array->id)->delete();
             }
         }
     }
 
     public function render()
     {
-        return view('livewire.todo-component');
+        $todoArray = Todo::all();
+
+        return view('livewire.todo-component', compact('todoArray'));
     }
 }

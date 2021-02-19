@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Livewire\TodoComponent;
+use App\Http\Livewire\TodoFrontend;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,8 +15,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
-// Route::get('/', TodoComponent::class);
+Route::get('/', TodoComponent::class);
+Route::get('/frontend', TodoFrontend::class);

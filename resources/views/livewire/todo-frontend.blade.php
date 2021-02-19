@@ -36,38 +36,38 @@
 
                 @foreach ($todoArray as $i => $todo)
 
-                    @if ($showAll == true || $todo->cross == $showActiveOrCompleted)
+                    @if ($showAll == true || $todo['cross'] == $showActiveOrCompleted)
 
-                        <li class="list-group-item list-group-item-action">
+                        <li class="list-group-item list-group-item-action hovereffect">
 
-                            <input wire:click="checkCross({{ $todo->id }})" value="{{ $todo->id }}"
-                                class="form-check-input" type="checkbox" {{ $todo->cross ? 'checked' : '' }}>
+                            <input wire:click="checkCross({{ $i }})" value="{{ $i }}"
+                                class="form-check-input" type="checkbox" {{ $todo['cross'] ? 'checked' : '' }}>
 
                             <div class="form-check">
 
                                 <label class="form-check-label w-100">
 
-                                    @if ($todo->show_input)
+                                    @if ($todo['showInput'])
 
-                                        <input wire:model="todoInput.{{ $todo->id }}"
-                                            wire:keydown.enter="update({{ $todo->id }})" type="text"
+                                        <input wire:model="todoInput.{{ $i }}"
+                                            wire:keydown.enter="update({{ $i }})" type="text"
                                             class="form-control rounded-0">
 
                                     @else
 
                                         <div class="row">
-                                            <div class="col-11" id="id-{{ $todo->id }}"
-                                                wire:click="edit({{ $todo->id }})">
+                                            <div class="col-11" id="id-{{ $i }}"
+                                                wire:click="edit({{ $i }})">
 
-                                                @if ($todo->cross)
-                                                    <s>{{ $todo->text }}</s>
+                                                @if ($todo['cross'])
+                                                    <s>{{ $todo['text'] }}</s>
                                                 @else
-                                                    {{ $todo->text }}
+                                                    {{ $todo['text'] }}
                                                 @endif
 
                                             </div>
 
-                                            <div class="col-1 X" wire:click="delete({{ $todo->id }})"
+                                            <div class="col-1 X" wire:click="delete({{ $i }})"
                                                 style="display: none">X</div>
                                         </div>
 
@@ -81,7 +81,7 @@
 
                     @endif
 
-                    @if ($todo->cross == true)
+                    @if ($todo['cross'] == true)
                         @php
                             $showClearCompleted = true;
                         @endphp
@@ -190,3 +190,4 @@
     </style>
 
 </div>
+

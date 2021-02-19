@@ -32,7 +32,7 @@
     <body class="antialiased">
 
         {{-- @livewire('todo-component') --}}
-        @yield('content')
+        {{ $slot }}
 
         @livewireScripts
 
