@@ -5,7 +5,7 @@
 - Insert Item
 - Edit Item
 - Delete Item
-### Show:
+- Show Item:
 - All Item
 - Active Item
 - Completed Item
